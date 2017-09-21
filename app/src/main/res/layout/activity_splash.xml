@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">-->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_need_offset"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/start">
+
+    <!--<ImageView
+        android:id="@+id/iv_ad"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/start"/>-->
+
+    <com.example.shinelon.mytest.widget.CircleTextProgressbar
+        android:id="@+id/ctp_pass"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="11dp"/>
+</RelativeLayout>
+
+    <!--
+    </LinearLayout>-->
