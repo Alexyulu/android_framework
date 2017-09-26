@@ -75,7 +75,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements Spl
         }).start();
 
         RxView.clicks(ctpPass)
-                .throttleFirst(2, TimeUnit.MILLISECONDS)
+                .throttleFirst(2, TimeUnit.SECONDS)
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(Object o) throws Exception {
