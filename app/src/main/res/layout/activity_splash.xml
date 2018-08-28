@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/start"/>-->
 
-    <com.example.shinelon.mytest.widget.CircleTextProgressbar
+    <com.example.mytest.widget.CircleTextProgressbar
         android:id="@+id/ctp_pass"
         android:layout_width="50dp"
         android:layout_height="50dp"

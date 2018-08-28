@@ -3,4 +3,9 @@
     <declare-styleable name="CircleTextProgressbar">
         <attr name="in_circle_color" format="color" />
     </declare-styleable>
+
+    <!--加载圆圈的attr-->
+    <declare-styleable name="CircularProgress">
+        <attr name="border_Width" format="dimension" />
+    </declare-styleable>
 </resources>
