@@ -60,17 +60,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends SimpleActivi
         dismissProgressbar();
         ToastUtils.showShort(errMsg);
 
-        /*if (!TextUtils.isEmpty(code)) {
-            if (code.equals("ERR0013")) {
-                Toast.makeText(App.getInstance(), "登录信息有误，请重新登录", Toast.LENGTH_SHORT).show();
-                App.getAppComponent().preferencesHelper().setLoginInfo(new LoginBean());
-                Intent intent = new Intent(App.getInstance(), LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            } else {
-                Toast.makeText(App.getInstance(), CodeDetail.judgeCode(code), Toast.LENGTH_SHORT).show();
-            }
-        }*/
     }
 
     @Override

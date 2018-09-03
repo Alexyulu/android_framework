@@ -32,7 +32,7 @@ public abstract class RootActivity<T extends BasePresenter> extends BaseActivity
 
     @Override
     protected void initEventAndData() {
-        viewMain = (ViewGroup) findViewById(R.id.view_main);
+        viewMain = findViewById(R.id.view_main);
         if (viewMain == null) {
             throw new IllegalStateException(
                     "The subclass of RootActivity must contain a View named 'view_main'.");
@@ -44,7 +44,7 @@ public abstract class RootActivity<T extends BasePresenter> extends BaseActivity
         mParent = (ViewGroup) viewMain.getParent();
         View.inflate(mContext, R.layout.view_progress, mParent);
         viewLoading = mParent.findViewById(R.id.view_loading);
-        ivLoading = viewLoading.findViewById(R.id.iv_progress);
+        ivLoading = viewLoading.findViewById(R.id.cp_progress);
         viewLoading.setVisibility(View.GONE);
         viewMain.setVisibility(View.VISIBLE);
     }

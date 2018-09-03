@@ -2,7 +2,7 @@ package com.example.mytest.base;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.mytest.R;
 
@@ -18,7 +18,7 @@ public abstract class RootFragment<T extends BasePresenter> extends BaseFragment
     private static final int STATE_LOADING = 0x01;
     private static final int STATE_ERROR = 0x02;
 
-    private ImageView ivLoading;
+    private ProgressBar cpLoading;
     private View viewError;
     private View viewLoading;
     private ViewGroup viewMain;
@@ -33,7 +33,7 @@ public abstract class RootFragment<T extends BasePresenter> extends BaseFragment
     protected void initEventAndData() {
         if (getView() == null)
             return;
-        viewMain = (ViewGroup) getView().findViewById(R.id.view_main);
+        viewMain = getView().findViewById(R.id.view_main);
         if (viewMain == null) {
             throw new IllegalStateException(
                     "The subclass of RootActivity must contain a View named 'view_main'.");
@@ -45,7 +45,7 @@ public abstract class RootFragment<T extends BasePresenter> extends BaseFragment
         mParent = (ViewGroup) viewMain.getParent();
         View.inflate(mContext, R.layout.view_progress, mParent);
         viewLoading = mParent.findViewById(R.id.view_loading);
-        ivLoading = viewLoading.findViewById(R.id.iv_progress);
+        cpLoading = viewLoading.findViewById(R.id.cp_progress);
         viewLoading.setVisibility(View.GONE);
         viewMain.setVisibility(View.VISIBLE);
     }
