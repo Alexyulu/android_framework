@@ -1,11 +1,17 @@
 package com.example.mytest.presenter.main;
 
+import com.example.mytest.app.App;
 import com.example.mytest.base.RxPresenter;
 import com.example.mytest.base.contract.main.SplashContract;
+import com.example.mytest.model.DataManager;
 import com.example.mytest.model.bean.LoginBean;
-import com.example.mytest.util.L;
+import com.example.mytest.util.RxUtil;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
+
+import io.reactivex.Flowable;
 
 /**
  * Author: SmartYu
@@ -16,35 +22,27 @@ import javax.inject.Inject;
 
 public class SplashPresenter extends RxPresenter<SplashContract.View> implements SplashContract.Presenter {
 
+    private DataManager dataManager;
+
     @Inject
-    public SplashPresenter() {
+    public SplashPresenter(DataManager dataManager) {
+        this.dataManager = dataManager;
+    }
+
+    @Override
+    public void checkVersion() {
 
     }
 
     @Override
-    public void judgeUserState(LoginBean body) {
-        int roleType = body.getRoleType();
-        switch (roleType) {
-            case 0:
-                L.i("本地有登录信息,且用户未选择身份");
-                //getView().toSelectIdentity(loginInfo);
-                mView.toSelectIdentity();
-                break;
-            case 1:
-                L.d("用户有身份信息，且是普通用户");
-                //getView().toEvaluate(loginInfo);
-                mView.toEvaluate();
-                break;
-            case 2:
-                L.d("用户有身份信息，且是大师用户");
-                //getView().toMaster(loginInfo);
-                mView.toMaster();
-                break;
-            default:
-                //getView().toLogin();
-                mView.toLogin();
-                break;
-        }
+    public void judgeStateAndCopyDB() {
+        addSubscribe(Flowable.timer(1000, TimeUnit.MILLISECONDS)
+                .compose(RxUtil.<Long>rxSchedulerHelper())
+                .subscribe(aLong -> judgeUserState()));
+    }
+
+    private void judgeUserState() {
+        LoginBean loginInfo = App.getAppComponent().preferencesHelper().getLoginInfo();
 
     }
 }

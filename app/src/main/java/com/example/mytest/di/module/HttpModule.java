@@ -2,6 +2,7 @@ package com.example.mytest.di.module;
 
 import android.support.annotation.NonNull;
 
+import com.example.mytest.BuildConfig;
 import com.example.mytest.app.Constants;
 import com.example.mytest.di.qualifier.MainUrl;
 import com.example.mytest.model.http.api.MainApi;
@@ -68,7 +69,7 @@ public class HttpModule {
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         builder.addInterceptor(loggingInterceptor);
 
-        File cacheFile = new File(Constants.PATH_CACHE);
+        File cacheFile = new File(Constants.PATH_DATA);
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 50);
         Interceptor cacheInterceptor = chain -> {
             Request request = chain.request();
@@ -122,7 +123,7 @@ public class HttpModule {
 
     private Retrofit createRetrofit(Retrofit.Builder builder, OkHttpClient client) {
         return builder
-                .baseUrl(Constants.BASE_URL)
+                .baseUrl(BuildConfig.URL)
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

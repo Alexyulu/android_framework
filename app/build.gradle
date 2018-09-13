@@ -18,18 +18,19 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField 'String', 'URL', '"http://192.168.1.193:10092/"'
+            //applicationIdSuffix ".debug"
+            minifyEnabled false
+            //manifestPlaceholders = [APP_LABEL    : "master大师"]
+        }
+
         release {
             //不显示log//编译级别控制
             buildConfigField("boolean", "LOG_ERROR", "false")
+            buildConfigField 'String', 'URL', '"http://192.168.1.193:10092/"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-
-        debug {
-            buildConfigField 'String', 'URL', '"com.cheshi.carmaster"'
-            //applicationIdSuffix ".debug"
-            minifyEnabled false
-            manifestPlaceholders = [APP_LABEL    : "master大师"]
         }
     }
 

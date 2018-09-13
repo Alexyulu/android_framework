@@ -1,7 +1,6 @@
 package com.example.mytest.model.http;
 
 import com.example.mytest.model.bean.LoginBean;
-import com.example.mytest.model.bean.PassCodeBean;
 import com.example.mytest.model.http.api.MainApi;
 import com.example.mytest.model.http.response.BaseResponse;
 
@@ -25,11 +24,6 @@ public class RetrofitHelper implements HttpHelper {
     @Inject
     public RetrofitHelper(MainApi mainApi) {
         mMainApi = mainApi;
-    }
-
-    @Override
-    public Flowable<BaseResponse<PassCodeBean>> fetchPassCodeInfo(Map<String, Object> map) {
-        return mMainApi.getPassReq(map);
     }
 
     @Override

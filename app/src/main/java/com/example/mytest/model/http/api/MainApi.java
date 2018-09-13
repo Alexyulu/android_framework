@@ -1,8 +1,7 @@
 package com.example.mytest.model.http.api;
 
-import com.example.mytest.app.Constants;
+import com.example.mytest.app.AppConfig;
 import com.example.mytest.model.bean.LoginBean;
-import com.example.mytest.model.bean.PassCodeBean;
 import com.example.mytest.model.http.response.BaseResponse;
 
 import java.util.Map;
@@ -20,10 +19,6 @@ import retrofit2.http.POST;
  */
 public interface MainApi {
     @FormUrlEncoded
-    @POST(Constants.POST_URL)
+    @POST(AppConfig.APP_LOGIN)
     Flowable<BaseResponse<LoginBean>> loginReq(@FieldMap Map<String, Object> hashMap);
-
-    @FormUrlEncoded
-    @POST(Constants.POST_URL)
-    Flowable<BaseResponse<PassCodeBean>> getPassReq(@FieldMap Map<String, Object> hashMap);
 }

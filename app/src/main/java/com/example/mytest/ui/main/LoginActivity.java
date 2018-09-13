@@ -1,34 +1,30 @@
 package com.example.mytest.ui.main;
 
-import android.graphics.Color;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.TextView;
 
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.example.mytest.R;
 import com.example.mytest.app.App;
+import com.example.mytest.app.Constants;
 import com.example.mytest.base.BaseActivity;
 import com.example.mytest.base.contract.main.LoginContract;
 import com.example.mytest.model.bean.LoginBean;
 import com.example.mytest.presenter.main.LoginPresenter;
-import com.example.mytest.util.L;
-import com.example.mytest.util.StringUtils;
-import com.example.mytest.util.SystemUtil;
-import com.example.mytest.util.ToastUtil;
 import com.example.mytest.util.Utils;
-import com.jaeger.library.StatusBarUtil;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import cn.iwgang.countdownview.CountdownView;
-import io.reactivex.functions.Consumer;
 
 /**
  * Author: SmartYu
@@ -38,46 +34,15 @@ import io.reactivex.functions.Consumer;
  */
 
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
-    private static final int REQUEST_CALL_PERMISSION = 1;
 
-    @BindView(R.id.iv_user_avatar)
-    ImageView ivUserAvatar;
-
-    @BindView(R.id.rb_yzm)
-    RadioButton rbYzm;
-    @BindView(R.id.v_yzm)
-    View vYzm;
-    @BindView(R.id.rb_pwd)
-    RadioButton rbPwd;
-    @BindView(R.id.v_pwd)
-    View vPwd;
-
-    @BindView(R.id.et_userPhone)
-    EditText etUserPhone;
-    @BindView(R.id.et_user_pwd)
-    EditText etUserPwd;
-    @BindView(R.id.tv_forget_pwd)
-    TextView tvForgetPwd;
-    @BindView(R.id.ll_pwd)
-    LinearLayout llPwd;
-    @BindView(R.id.ll_yzm)
-    LinearLayout llYZM;
-
+    @BindView(R.id.iv_logo)
+    ImageView ivLogo;
     @BindView(R.id.et_user)
     EditText etUser;
     @BindView(R.id.et_user_pass)
     EditText etUserPass;
-    @BindView(R.id.tv_get_pass)
-    TextView tvGetPass;
-    @BindView(R.id.cdv_login)
-    CountdownView cdvLogin;
-    @BindView(R.id.ll_count_down)
-    LinearLayout llCountDown;
     @BindView(R.id.btn_login)
     Button btnLogin;
-    @BindView(R.id.register_rules)
-    TextView registerRules;
-
 
     @Override
     protected int getLayout() {
@@ -86,30 +51,26 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     protected void initEventAndData() {
-        StatusBarUtil.setTranslucent(this, 0);
+        //每当重新打开登陆的时候置空
+        App.getAppComponent().preferencesHelper().setLoginInfo(new LoginBean());
+        SPUtils.getInstance().put("token", "");
 
-        baseCompositeDisposable.addAll(
-                RxView.clicks(tvGetPass)
-                .throttleFirst(5000, TimeUnit.MILLISECONDS)
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        onGetPassCodeClick();
-                    }
-                }),  RxView.clicks(btnLogin)
+        baseCompositeDisposable.add(RxView.clicks(btnLogin)
                 .throttleFirst(2000, TimeUnit.MILLISECONDS)
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        onLoginClick();
-                    }
-                }));
+                .subscribe(o -> onLoginClick()));
+
+        //检查用户是否时首次打开登陆，如果是，则提示去设置打开所有通知权限
+        boolean aBoolean = SPUtils.getInstance().getBoolean(Constants.SP_IS_FIRST_OPEN, true);
+
+        if (aBoolean) {
+            openApplicationSettings();
+        }
+
     }
 
     private void onLoginClick() {
-        if (!SystemUtil.isNetworkConnected()) {
-            //onShowToast("网络不可用");
-            ToastUtil.shortShow("网络不可用");
+        if (!NetworkUtils.isConnected()) {
+            ToastUtils.showShort("网络不可用");
             return;
         }
 
@@ -117,37 +78,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         String passCode = Utils.getText(etUserPass);
 
         if (TextUtils.isEmpty(userPhone)) {
-            ToastUtil.shortShow("手机号不能为空");
+            ToastUtils.showShort("账号不能为空");
             Utils.requestFocus(etUser);
         } else if (TextUtils.isEmpty(passCode)) {
-            ToastUtil.shortShow("验证码不能为空");
+            ToastUtils.showShort("密码不能为空");
             Utils.requestFocus(etUserPass);
         } else {
             //用户登录
-            if (StringUtils.isPhone(userPhone)) {
-                mPresenter.login(userPhone, passCode);
-            } else {
-                ToastUtil.shortShow("您输入的手机号有误");
-            }
-        }
-    }
-
-    private void onGetPassCodeClick() {
-        if (!SystemUtil.isNetworkConnected()) {
-            ToastUtil.shortShow("网络不可用");
-            return;
-        }
-
-        String userPhone = Utils.getText(etUser);
-
-        if (TextUtils.isEmpty(userPhone)) {
-            ToastUtil.shortShow("手机号不能为空");
-            Utils.requestFocus(etUser);
-        } else {
-            tvGetPass.setEnabled(false);
-            mPresenter.getPass(userPhone);
-            etUser.clearFocus();
-            Utils.requestFocus(etUserPass);
+            mPresenter.login(userPhone, passCode);
         }
     }
 
@@ -157,31 +95,66 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
-    public void onGetPassSuccess(String verifyCode) {
-        L.d(verifyCode);
+    public void onLoginSuccess(LoginBean loginBean) {
+        App.getAppComponent().preferencesHelper().setLoginInfo(loginBean);
+        //将token放出sp中
+        SPUtils.getInstance().put("token", loginBean.getToken());
 
-        tvGetPass.setTextColor(Color.parseColor("#00FFFFFF"));
-        tvGetPass.setEnabled(false);
-        tvGetPass.setClickable(false);
-        llCountDown.setVisibility(View.VISIBLE);
-        cdvLogin.start(60000L);
-        cdvLogin.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
-            @Override
-            public void onEnd(CountdownView cv) {
-                llCountDown.setVisibility(View.GONE);
-                tvGetPass.setTextColor(Color.parseColor("#57585f"));
-                tvGetPass.setEnabled(true);
-                tvGetPass.setClickable(true);
-            }
-        });
+        LogUtils.d("token = " + loginBean.getToken());
+        //LogUtils.d("tag = " + loginBean.getTag());
+
+        ToastUtils.showShort("登陆成功");
+
+        //设置alias别名
+        //setAlias(loginBean.getAlias());
+        //setTag(loginBean.getTag());
+
+        //登陆成功  去首页
+        //startActivity(new Intent(this, MainActivity.class));
+        //finish();
     }
 
-    @Override
-    public void onLoginSuccess(LoginBean loginBean) {
-        L.d(loginBean.toString());
-        App.getAppComponent().preferencesHelper().setLoginInfo(loginBean);
+    private void openApplicationSettings() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("通知权限申请")
+                .setMessage("请点击设置，在 应用详情 → 通知管理 中打开 <所有通知权限>，以便更好的使用本应用")
+                .setPositiveButton("设置", (dialog, which) -> {
+                    SPUtils.getInstance().put(Constants.SP_IS_FIRST_OPEN, false);
+                    //去允许通知的设置页
+                    goToNotificationSetting();
+                    /*Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + LoginActivity.this.getPackageName()));
+                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                    startActivityForResult(intent, SETTINGS_REQUEST_CODE);*/
+                })
+                .setNegativeButton("取消", (dialog, which) -> {
+                    SPUtils.getInstance().put(Constants.SP_IS_FIRST_OPEN, false);
+                    dialog.dismiss();
+                    //ToastUtils.showShort("您的通知功能可能会收到影响，请在设置→应用管理→智如下将所有通知权限开启");
+                });
+        builder.setCancelable(false);
+        builder.show();
+    }
 
-        LoginBean loginInfo = App.getAppComponent().preferencesHelper().getLoginInfo();
-        L.d(loginInfo.toString() + " ===================");
+    private void goToNotificationSetting() {
+        Intent intent = new Intent();
+        /*if (Build.VERSION.SDK_INT >= 26) {
+            // android 8.0引导
+            intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+            intent.putExtra("android.provider.extra.APP_PACKAGE", this.getPackageName());
+        } else if (Build.VERSION.SDK_INT >= 21) {
+            // android 5.0-7.0
+            intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+            intent.putExtra("app_package", this.getPackageName());
+            intent.putExtra("app_uid", this.getApplicationInfo().uid);
+        } else {
+            // 其他
+            intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+            intent.setData(Uri.fromParts("package", this.getPackageName(), null));
+        }*/
+        intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+        intent.setData(Uri.fromParts("package", this.getPackageName(), null));
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

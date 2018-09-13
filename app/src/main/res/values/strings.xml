@@ -7,6 +7,7 @@
     <string name="login_input_phone">请输入手机号</string>
     <string name="login_pass_code">登录页验证码图片</string>
     <string name="login_input_pass">请输入验证码</string>
+    <string name="input_account">请输入账户</string>
     <string name="login_count_down">秒</string>
     <string name="login_get_pass">获取验证码</string>
     <string name="login_bind_phone_and_validate">立即登录</string>

@@ -1,7 +1,6 @@
 package com.example.mytest.model.http;
 
 import com.example.mytest.model.bean.LoginBean;
-import com.example.mytest.model.bean.PassCodeBean;
 import com.example.mytest.model.http.response.BaseResponse;
 
 import java.util.Map;
@@ -16,8 +15,6 @@ import io.reactivex.Flowable;
  */
 
 public interface HttpHelper {
-
-    Flowable<BaseResponse<PassCodeBean>> fetchPassCodeInfo(Map<String, Object> map);
 
     Flowable<BaseResponse<LoginBean>> fetchLoginInfo(Map<String, Object> map);
 }

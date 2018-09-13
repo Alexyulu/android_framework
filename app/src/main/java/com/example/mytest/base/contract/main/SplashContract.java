@@ -2,7 +2,6 @@ package com.example.mytest.base.contract.main;
 
 import com.example.mytest.base.BasePresenter;
 import com.example.mytest.base.BaseView;
-import com.example.mytest.model.bean.LoginBean;
 
 /**
  * Author: SmartYu
@@ -16,15 +15,12 @@ public interface SplashContract {
 
         void toLogin();
 
-        void toSelectIdentity();
-
-        void toEvaluate();
-
-        void toMaster();
     }
 
     interface Presenter extends BasePresenter<View> {
 
-        void judgeUserState(LoginBean bodyBean);
+        void checkVersion();
+
+        void judgeStateAndCopyDB();
     }
 }

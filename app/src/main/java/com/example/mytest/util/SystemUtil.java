@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.example.mytest.app.App;
 import com.example.mytest.app.Constants;
 
@@ -65,7 +66,7 @@ public class SystemUtil {
         ClipData clipData = ClipData.newPlainText("url", text);
         ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         manager.setPrimaryClip(clipData);
-        ToastUtil.shortShow("已复制到剪贴板");
+        ToastUtils.showShort("已复制到剪贴板");
     }
 
     /**
@@ -76,7 +77,7 @@ public class SystemUtil {
      */
     public static Uri saveBitmapToFile(Context context, String url, Bitmap bitmap, View container, boolean isShare){
         String fileName = url.substring(url.lastIndexOf("/"),url.lastIndexOf(".")) + ".png";
-        File fileDir = new File(Constants.PATH_SDCARD);
+        File fileDir = new File(Constants.PATH_DATA);
         if (!fileDir.exists()){
             fileDir.mkdirs();
         }

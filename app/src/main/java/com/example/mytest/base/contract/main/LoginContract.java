@@ -15,14 +15,10 @@ public interface LoginContract {
 
     interface Presenter extends BasePresenter<View> {
 
-        void getPass(String userPhone);
-
         void login(String userPhone, String passCode);
     }
 
     interface View extends BaseView{
-
-        void onGetPassSuccess(String verifyCode);
 
         void onLoginSuccess(LoginBean loginBean);
     }
