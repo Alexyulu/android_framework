@@ -2,12 +2,12 @@ package com.example.mytest.di.module;
 
 import android.support.annotation.NonNull;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.example.mytest.BuildConfig;
 import com.example.mytest.app.Constants;
 import com.example.mytest.di.qualifier.MainUrl;
 import com.example.mytest.model.http.api.MainApi;
 import com.example.mytest.util.JsonUtil;
-import com.example.mytest.util.L;
 import com.example.mytest.util.SystemUtil;
 
 import java.io.File;
@@ -147,7 +147,7 @@ public class HttpModule {
             mMessage.append(message.concat("\n"));
             // 响应结束，打印整条日志
             if (message.startsWith("<-- END HTTP")) {
-                L.d(mMessage.toString());
+                LogUtils.d(mMessage.toString());
             }
         }
     }

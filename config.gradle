@@ -56,5 +56,12 @@ ext {
             "StatusBarUtil"             : "com.jaeger.statusbarutil:library:1.4.0",
             "countdownview"             : "com.github.iwgang:countdownview:2.1.3",
             "android-utils"             : "com.blankj:utilcode:1.16.1",
+            "recyclerview-helper"       : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40",
+            "material-dialog"           : "com.afollestad.material-dialogs:core:0.9.6.0",
+            "picker-view"               : "com.contrarywind:Android-PickerView:4.1.4",
+            "parceler-api"              : "org.parceler:parceler-api:1.1.9",
+            "parceler"                  : "org.parceler:parceler:1.1.9",
+            "eventbus"                  : "org.greenrobot:eventbus:3.1.1",
+            "FlycoTabLayout_Lib"        : "com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar"
     ]
 }

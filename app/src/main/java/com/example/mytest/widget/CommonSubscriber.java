@@ -2,9 +2,9 @@ package com.example.mytest.widget;
 
 import android.text.TextUtils;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.example.mytest.base.BaseView;
 import com.example.mytest.model.http.exception.ApiException;
-import com.example.mytest.util.L;
 
 import io.reactivex.subscribers.ResourceSubscriber;
 import retrofit2.HttpException;
@@ -60,7 +60,7 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
             mView.showErrorMsg("数据加载失败ヽ(≧Д≦)ノ");
         } else {
             mView.showErrorMsg("未知错误ヽ(≧Д≦)ノ");
-            L.d(e.toString());
+            LogUtils.d(e.toString());
         }
         if (isShowErrorState) {
             mView.stateError();

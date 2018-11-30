@@ -22,7 +22,6 @@ android {
             buildConfigField 'String', 'URL', '"http://192.168.1.193:10092/"'
             //applicationIdSuffix ".debug"
             minifyEnabled false
-            //manifestPlaceholders = [APP_LABEL    : "master大师"]
         }
 
         release {
@@ -105,7 +104,6 @@ dependencies {
     annotationProcessor lib.dependencies["butterknife-compiler"]
 
     //other
-    //implementation lib.dependencies["logger"]
     implementation lib.dependencies["fragmentation"]
     implementation lib.dependencies["StatusBarUtil"]
     implementation lib.dependencies["countdownview"]
