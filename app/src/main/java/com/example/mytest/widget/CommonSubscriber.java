@@ -5,6 +5,10 @@ import android.text.TextUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.example.mytest.base.BaseView;
 import com.example.mytest.model.http.exception.ApiException;
+import com.google.gson.JsonSyntaxException;
+
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 
 import io.reactivex.subscribers.ResourceSubscriber;
 import retrofit2.HttpException;
@@ -57,11 +61,26 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
             ApiException apiException = (ApiException) e;
             mView.operateErrCode(apiException.getCode(), apiException.getErrMsg());
         } else if (e instanceof HttpException) {
-            mView.showErrorMsg("数据加载失败ヽ(≧Д≦)ノ");
+            mView.showErrorMsg("数据加载失败");
+        } else if (e instanceof ConnectException) {
+            mView.showErrorMsg("连接服务器失败");
+        } else if (e instanceof SocketTimeoutException) {
+            mView.showErrorMsg("连接服务器超时");
+        } else if (e instanceof NumberFormatException) {
+            mView.showErrorMsg("数据转换异常");
+            e.printStackTrace();
+        } else if (e instanceof JsonSyntaxException) {
+            mView.showErrorMsg("数据解析错误");
+            e.printStackTrace();
+        } else if (e instanceof NullPointerException) {
+            mView.showErrorMsg("无数据");
+            e.printStackTrace();
         } else {
-            mView.showErrorMsg("未知错误ヽ(≧Д≦)ノ");
+            mView.showErrorMsg("未知错误");
+            e.printStackTrace();
             LogUtils.d(e.toString());
         }
+        LogUtils.e(e);
         if (isShowErrorState) {
             mView.stateError();
         }

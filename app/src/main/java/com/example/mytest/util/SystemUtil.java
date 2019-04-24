@@ -90,15 +90,15 @@ public class SystemUtil {
             FileOutputStream fos = new FileOutputStream(imageFile);
             boolean isCompress = bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos);
             if (isCompress) {
-                SnackbarUtil.showShort(container,"保存成功n(*≧▽≦*)n");
+                SnackBarUtil.showShort(container,"保存成功");
             } else {
-                SnackbarUtil.showShort(container,"保存失败ヽ(≧Д≦)ノ");
+                SnackBarUtil.showShort(container,"保存失败");
             }
             fos.flush();
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
-            SnackbarUtil.showShort(container,"保存失败ヽ(≧Д≦)ノ");
+            SnackBarUtil.showShort(container,"保存失败");
         }
         try {
             MediaStore.Images.Media.insertImage(context.getContentResolver(), imageFile.getAbsolutePath(), fileName, null);

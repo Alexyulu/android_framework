@@ -12,7 +12,7 @@ import com.example.mytest.app.App;
 import com.example.mytest.di.component.DaggerFragmentComponent;
 import com.example.mytest.di.component.FragmentComponent;
 import com.example.mytest.di.module.FragmentModule;
-import com.example.mytest.util.SnackbarUtil;
+import com.example.mytest.util.SnackBarUtil;
 
 import javax.inject.Inject;
 
@@ -58,7 +58,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends SimpleFragme
         FragmentActivity activity = getActivity();
         try {
             if (activity != null)
-                SnackbarUtil.show(((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0), msg);
+                SnackBarUtil.show(((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0), msg);
         } catch (Exception e) {
             e.printStackTrace();
         }

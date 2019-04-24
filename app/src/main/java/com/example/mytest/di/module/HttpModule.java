@@ -3,6 +3,7 @@ package com.example.mytest.di.module;
 import android.support.annotation.NonNull;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.example.mytest.BuildConfig;
 import com.example.mytest.app.Constants;
 import com.example.mytest.di.qualifier.MainUrl;
@@ -96,18 +97,15 @@ public class HttpModule {
             }
             return response;
         };
-//        Interceptor apikey = new Interceptor() {
-//            @Override
-//            public Response intercept(Chain chain) throws IOException {
-//                Request request = chain.request();
-//                request = request.newBuilder()
-//                        .addHeader("apikey",Constants.KEY_API)
-//                        .build();
-//                return chain.proceed(request);
-//            }
-//        }
+        Interceptor apikey = chain -> {
+            Request request = chain.request();
+            request = request.newBuilder()
+                    .addHeader("Authorization", SPUtils.getInstance().getString("sessionid"))
+                    .build();
+            return chain.proceed(request);
+        };
 //        设置统一的请求头部参数
-//        builder.addInterceptor(apikey);
+        builder.addInterceptor(apikey);
         //设置缓存
         builder.addNetworkInterceptor(cacheInterceptor);
         builder.addInterceptor(cacheInterceptor);

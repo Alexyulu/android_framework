@@ -2,7 +2,7 @@ package com.example.mytest.presenter.main;
 
 import com.example.mytest.app.App;
 import com.example.mytest.base.RxPresenter;
-import com.example.mytest.base.contract.main.SplashContract;
+import com.example.mytest.model.contract.main.SplashContract;
 import com.example.mytest.model.DataManager;
 import com.example.mytest.model.bean.LoginBean;
 import com.example.mytest.util.RxUtil;

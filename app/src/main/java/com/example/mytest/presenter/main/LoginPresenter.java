@@ -1,9 +1,9 @@
 package com.example.mytest.presenter.main;
 
 import com.example.mytest.base.RxPresenter;
-import com.example.mytest.base.contract.main.LoginContract;
 import com.example.mytest.model.DataManager;
 import com.example.mytest.model.bean.LoginBean;
+import com.example.mytest.model.contract.main.LoginContract;
 import com.example.mytest.util.RxUtil;
 import com.example.mytest.widget.CommonSubscriber;
 
@@ -29,10 +29,11 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
     }
 
     @Override
-    public void login(String userPhone, String passCode) {
+    public void login(String userPhone, String password) {
         Map<String, Object> map = new HashMap<>();
-        map.put("account", userPhone);
-        map.put("password", passCode);
+        map.put("userPhone", userPhone);
+        map.put("password", password);
+        //map.put("platForm", 1);
 
         addSubscribe(dataManager.fetchLoginInfo(map)
                 .compose(RxUtil.rxSchedulerHelper())

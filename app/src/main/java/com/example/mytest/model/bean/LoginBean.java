@@ -1,5 +1,7 @@
 package com.example.mytest.model.bean;
 
+import java.util.List;
+
 /**
  * Author: SmartYu
  * EMail : luyu1235211@163.com
@@ -8,81 +10,62 @@ package com.example.mytest.model.bean;
  */
 
 public class LoginBean {
-    String uId;
-    String dId;
-    int levelPresent;
-    int roleType;
-    String userId;
-    int userCarCount;
-    long companyId;
-    String token;
-    String userPhone;
-    String upToken;
-    int masterTDCount;
-    long HBMoney;
 
-    public String getuId() {
-        return uId;
+    /**
+     * nickName : string
+     * platForm : 0
+     * roles : [{"createId":0,"createTime":"2019-04-01T06:13:13.646Z","designation":"string","id":0,"ifUseful":0,"parentId":0,"platform":0,"roleName":"string"}]
+     * sessionId : string
+     * userId : 0
+     * userPhone : string
+     */
+
+    private String nickName;
+    private int platForm;
+    private String sessionId;
+    private int userId;
+    private String userPhone;
+    private String alia;
+    private List<RolesBean> roles;
+
+    public String getAlia() {
+        return alia;
     }
 
-    public void setuId(String uId) {
-        this.uId = uId;
+    public void setAlia(String alia) {
+        this.alia = alia;
     }
 
-    public String getdId() {
-        return dId;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setdId(String dId) {
-        this.dId = dId;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
-    public int getLevelPresent() {
-        return levelPresent;
+    public int getPlatForm() {
+        return platForm;
     }
 
-    public void setLevelPresent(int levelPresent) {
-        this.levelPresent = levelPresent;
+    public void setPlatForm(int platForm) {
+        this.platForm = platForm;
     }
 
-    public int getRoleType() {
-        return roleType;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setRoleType(int roleType) {
-        this.roleType = roleType;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public int getUserCarCount() {
-        return userCarCount;
-    }
-
-    public void setUserCarCount(int userCarCount) {
-        this.userCarCount = userCarCount;
-    }
-
-    public long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(long companyId) {
-        this.companyId = companyId;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public String getUserPhone() {
@@ -93,45 +76,97 @@ public class LoginBean {
         this.userPhone = userPhone;
     }
 
-    public String getUpToken() {
-        return upToken;
+    public List<RolesBean> getRoles() {
+        return roles;
     }
 
-    public void setUpToken(String upToken) {
-        this.upToken = upToken;
+    public void setRoles(List<RolesBean> roles) {
+        this.roles = roles;
     }
 
-    public int getMasterTDCount() {
-        return masterTDCount;
-    }
+    public static class RolesBean {
+        /**
+         * createId : 0
+         * createTime : 2019-04-01T06:13:13.646Z
+         * designation : string
+         * id : 0
+         * ifUseful : 0
+         * parentId : 0
+         * platform : 0
+         * roleName : string
+         */
 
-    public void setMasterTDCount(int masterTDCount) {
-        this.masterTDCount = masterTDCount;
-    }
+        private int createId;
+        private String createTime;
+        private String designation;
+        private int id;
+        private int ifUseful;
+        private int parentId;
+        private int platform;
+        private String roleName;
 
-    public long getHBMoney() {
-        return HBMoney;
-    }
+        public int getCreateId() {
+            return createId;
+        }
 
-    public void setHBMoney(long HBMoney) {
-        this.HBMoney = HBMoney;
-    }
+        public void setCreateId(int createId) {
+            this.createId = createId;
+        }
 
-    @Override
-    public String toString() {
-        return "BodyBean{" +
-                "uId='" + uId + '\'' +
-                ", dId='" + dId + '\'' +
-                ", levelPresent=" + levelPresent +
-                ", roleType=" + roleType +
-                ", userId='" + userId + '\'' +
-                ", userCarCount='" + userCarCount + '\'' +
-                ", companyId=" + companyId +
-                ", token='" + token + '\'' +
-                ", userPhone='" + userPhone + '\'' +
-                ", upToken='" + upToken + '\'' +
-                ", masterTDCount='" + masterTDCount + '\'' +
-                ", HBMoney='" + HBMoney + '\'' +
-                '}';
+        public String getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(String createTime) {
+            this.createTime = createTime;
+        }
+
+        public String getDesignation() {
+            return designation;
+        }
+
+        public void setDesignation(String designation) {
+            this.designation = designation;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getIfUseful() {
+            return ifUseful;
+        }
+
+        public void setIfUseful(int ifUseful) {
+            this.ifUseful = ifUseful;
+        }
+
+        public int getParentId() {
+            return parentId;
+        }
+
+        public void setParentId(int parentId) {
+            this.parentId = parentId;
+        }
+
+        public int getPlatform() {
+            return platform;
+        }
+
+        public void setPlatform(int platform) {
+            this.platform = platform;
+        }
+
+        public String getRoleName() {
+            return roleName;
+        }
+
+        public void setRoleName(String roleName) {
+            this.roleName = roleName;
+        }
     }
 }

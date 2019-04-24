@@ -1,7 +1,8 @@
 package com.example.mytest.util;
 
-import android.support.design.widget.Snackbar;
 import android.view.View;
+
+import com.blankj.utilcode.util.SnackbarUtils;
 
 /**
  * Author: SmartYu
@@ -10,13 +11,13 @@ import android.view.View;
  * Desc :
  */
 
-public class SnackbarUtil {
+public class SnackBarUtil {
 
     public static void show(View view, String msg) {
-        Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show();
+        SnackbarUtils.with(view).setMessage(msg).setDuration(SnackbarUtils.LENGTH_LONG).show();
     }
 
     public static void showShort(View view, String msg) {
-        Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
+        SnackbarUtils.with(view).setMessage(msg).setDuration(SnackbarUtils.LENGTH_SHORT).show();
     }
 }

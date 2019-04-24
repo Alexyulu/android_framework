@@ -7,7 +7,7 @@ import com.example.mytest.app.App;
 import com.example.mytest.di.component.ActivityComponent;
 import com.example.mytest.di.component.DaggerActivityComponent;
 import com.example.mytest.di.module.ActivityModule;
-import com.example.mytest.util.SnackbarUtil;
+import com.example.mytest.util.SnackBarUtil;
 
 import javax.inject.Inject;
 
@@ -52,7 +52,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SimpleActivi
     @Override
     public void showErrorMsg(String msg) {
         dismissProgressbar();
-        SnackbarUtil.show(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), msg);
+        SnackBarUtil.show(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), msg);
     }
 
     @Override

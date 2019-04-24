@@ -2,9 +2,9 @@ package com.example.mytest.base;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.example.mytest.R;
+import com.example.mytest.util.ProgressDialogUtils;
 
 /**
  * Author: SmartYu
@@ -19,9 +19,9 @@ public abstract class RootActivity<T extends BasePresenter> extends BaseActivity
     private static final int STATE_ERROR = 0x02;
 
     //用以显示loading的ImageView
-    private ImageView ivLoading;
+    //private ImageView ivLoading;
     private View viewError;
-    private View viewLoading;
+    //private View viewLoading;
     private ViewGroup viewMain;
     private ViewGroup mParent;
 
@@ -29,6 +29,7 @@ public abstract class RootActivity<T extends BasePresenter> extends BaseActivity
 
     private int currentState = STATE_MAIN;
     private boolean isErrorViewAdded = false;
+    private ProgressDialogUtils viewLoading;
 
     @Override
     protected void initEventAndData() {
@@ -42,10 +43,11 @@ public abstract class RootActivity<T extends BasePresenter> extends BaseActivity
                     "view_main's ParentView should be a ViewGroup.");
         }
         mParent = (ViewGroup) viewMain.getParent();
-        View.inflate(mContext, R.layout.view_progress, mParent);
-        viewLoading = mParent.findViewById(R.id.view_loading);
-        ivLoading = viewLoading.findViewById(R.id.cp_progress);
-        viewLoading.setVisibility(View.GONE);
+        //View.inflate(mContext, R.layout.view_progress, mParent);
+        //viewLoading = mParent.findViewById(R.id.view_loading);
+        //ivLoading = viewLoading.findViewById(R.id.cp_progress);
+        //viewLoading.setVisibility(View.GONE);
+        viewLoading = ProgressDialogUtils.getInstance(this);
         viewMain.setVisibility(View.VISIBLE);
     }
 
@@ -73,9 +75,10 @@ public abstract class RootActivity<T extends BasePresenter> extends BaseActivity
             return;
         hideCurrentView();
         currentState = STATE_LOADING;
-        viewLoading.setVisibility(View.VISIBLE);
+        //viewLoading.setVisibility(View.VISIBLE);
         //当是自定义progress并且有动画的时候开始动画
         //ivLoading.start();
+        viewLoading.show();
     }
 
     @Override
@@ -95,7 +98,8 @@ public abstract class RootActivity<T extends BasePresenter> extends BaseActivity
             case STATE_LOADING:
                 //当是自定义progress并且有动画的时候停止动画
                 //ivLoading.stop();
-                viewLoading.setVisibility(View.GONE);
+                //viewLoading.setVisibility(View.GONE);
+                viewLoading.dismiss();
                 break;
             case STATE_ERROR:
                 if (viewError != null) {

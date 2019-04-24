@@ -5,12 +5,13 @@ import android.text.TextUtils;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.example.mytest.R;
-import com.example.mytest.app.App;
 import com.example.mytest.base.BaseActivity;
-import com.example.mytest.base.contract.main.SplashContract;
 import com.example.mytest.model.bean.LoginBean;
+import com.example.mytest.model.contract.main.SplashContract;
 import com.example.mytest.model.prefs.ImplPreferencesHelper;
 import com.example.mytest.presenter.main.SplashPresenter;
+
+import javax.inject.Inject;
 
 /**
  * Author: SmartYu
@@ -21,6 +22,7 @@ import com.example.mytest.presenter.main.SplashPresenter;
 
 public class SplashActivity extends BaseActivity<SplashPresenter> implements SplashContract.View {
 
+    @Inject
     ImplPreferencesHelper implPreferencesHelper;
 
     @Override
@@ -35,20 +37,15 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements Spl
 
     @Override
     protected void initEventAndData() {
-//        StatusBarUtil.setTranslucentForImageView(this, 225, rlNeedOffset);
-//        StatusBarUtil.setTranslucent(this, 0);
-        implPreferencesHelper = App.getAppComponent().preferencesHelper();
-
-        //judgeLoginInfo();
 
         mPresenter.checkVersion();
-        //延迟1000毫秒
+
         judgeLoginInfo();
     }
 
     private void judgeLoginInfo() {
         LoginBean loginInfo = implPreferencesHelper.getLoginInfo();
-        if (loginInfo == null || TextUtils.isEmpty(loginInfo.getToken())) {
+        if (loginInfo == null || TextUtils.isEmpty(loginInfo.getSessionId())) {
             LogUtils.i("没有登录信息");
             toLogin();
         } else {

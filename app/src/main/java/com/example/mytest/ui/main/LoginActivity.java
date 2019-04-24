@@ -1,8 +1,8 @@
 package com.example.mytest.ui.main;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,8 +16,8 @@ import com.example.mytest.R;
 import com.example.mytest.app.App;
 import com.example.mytest.app.Constants;
 import com.example.mytest.base.BaseActivity;
-import com.example.mytest.base.contract.main.LoginContract;
 import com.example.mytest.model.bean.LoginBean;
+import com.example.mytest.model.contract.main.LoginContract;
 import com.example.mytest.presenter.main.LoginPresenter;
 import com.example.mytest.util.Utils;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -53,7 +53,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     protected void initEventAndData() {
         //每当重新打开登陆的时候置空
         App.getAppComponent().preferencesHelper().setLoginInfo(new LoginBean());
-        SPUtils.getInstance().put("token", "");
+        SPUtils.getInstance().put("sessionid", "");
 
         baseCompositeDisposable.add(RxView.clicks(btnLogin)
                 .throttleFirst(2000, TimeUnit.MILLISECONDS)
@@ -85,6 +85,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             Utils.requestFocus(etUserPass);
         } else {
             //用户登录
+            stateLoading();
             mPresenter.login(userPhone, passCode);
         }
     }
@@ -96,22 +97,26 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void onLoginSuccess(LoginBean loginBean) {
+        stateMain();
+
         App.getAppComponent().preferencesHelper().setLoginInfo(loginBean);
         //将token放出sp中
-        SPUtils.getInstance().put("token", loginBean.getToken());
+        SPUtils.getInstance().put("sessionid", loginBean.getSessionId());
 
-        LogUtils.d("token = " + loginBean.getToken());
+        SPUtils.getInstance().put("isLogin", true);
+
+        LogUtils.d("sessionid = " + loginBean.getSessionId());
         //LogUtils.d("tag = " + loginBean.getTag());
 
         ToastUtils.showShort("登陆成功");
 
         //设置alias别名
-        //setAlias(loginBean.getAlias());
-        //setTag(loginBean.getTag());
+        //setAlias(loginBean.getAlia());
+//        setTag(loginBean.getTag());
 
         //登陆成功  去首页
-        //startActivity(new Intent(this, MainActivity.class));
-        //finish();
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
     private void openApplicationSettings() {
@@ -157,4 +162,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
+
 }

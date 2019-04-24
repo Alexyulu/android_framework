@@ -1,4 +1,4 @@
-package com.example.mytest.base.contract.main;
+package com.example.mytest.model.contract.main;
 
 import com.example.mytest.base.BasePresenter;
 import com.example.mytest.base.BaseView;
