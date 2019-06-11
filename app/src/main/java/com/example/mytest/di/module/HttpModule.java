@@ -1,15 +1,13 @@
 package com.example.mytest.di.module;
 
-import android.support.annotation.NonNull;
-
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.example.mytest.BuildConfig;
 import com.example.mytest.app.Constants;
 import com.example.mytest.di.qualifier.MainUrl;
 import com.example.mytest.model.http.api.MainApi;
-import com.example.mytest.util.JsonUtil;
 import com.example.mytest.util.SystemUtil;
+import com.example.mytest.util.printer.DefaultFormatPrinter;
+import com.example.mytest.util.printer.RequestInterceptor;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +22,6 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -64,11 +61,15 @@ public class HttpModule {
 
     @Singleton
     @Provides
+    RequestInterceptor provideFormatPrinter() {
+        return new RequestInterceptor(new DefaultFormatPrinter());
+    }
+
+    @Singleton
+    @Provides
     OkHttpClient provideClient(OkHttpClient.Builder builder) {
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLogger());
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        builder.addInterceptor(loggingInterceptor);
+        builder.addInterceptor(provideFormatPrinter());
 
         File cacheFile = new File(Constants.PATH_DATA);
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 50);
@@ -128,25 +129,5 @@ public class HttpModule {
                 .build();
     }
 
-    private class HttpLogger implements HttpLoggingInterceptor.Logger {
-        private StringBuilder mMessage = new StringBuilder();
 
-        @Override
-        public void log(@NonNull String message) {
-            // 请求或者响应开始
-            if (message.startsWith("--> POST")) {
-                mMessage.setLength(0);
-            }
-            // 以{}或者[]形式的说明是响应结果的json数据，需要进行格式化
-            if ((message.startsWith("{") && message.endsWith("}"))
-                    || (message.startsWith("[") && message.endsWith("]"))) {
-                message = JsonUtil.formatJson(JsonUtil.decodeUnicode(message));
-            }
-            mMessage.append(message.concat("\n"));
-            // 响应结束，打印整条日志
-            if (message.startsWith("<-- END HTTP")) {
-                LogUtils.d(mMessage.toString());
-            }
-        }
-    }
 }

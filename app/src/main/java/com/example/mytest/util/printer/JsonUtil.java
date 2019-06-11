@@ -1,4 +1,4 @@
-package com.example.mytest.util;
+package com.example.mytest.util.printer;
 
 /**
  * Author: SmartYu

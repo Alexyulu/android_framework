@@ -47,7 +47,7 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
 
     @Override
     public void onComplete() {
-
+        mView.stateMain();
     }
 
     @Override
@@ -55,6 +55,7 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
         if (mView == null) {
             return;
         }
+        mView.stateError();
         if (mErrorMsg != null && !TextUtils.isEmpty(mErrorMsg)) {
             mView.showErrorMsg(mErrorMsg);
         } else if (e instanceof ApiException) {
@@ -85,4 +86,12 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
             mView.stateError();
         }
     }
+
+    @Override
+    public void onNext(T t) {
+        mView.stateMain();
+        successReturn(t);
+    }
+
+    public abstract void successReturn(T data);
 }

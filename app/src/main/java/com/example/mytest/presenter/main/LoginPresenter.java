@@ -4,7 +4,6 @@ import com.example.mytest.base.RxPresenter;
 import com.example.mytest.model.DataManager;
 import com.example.mytest.model.bean.LoginBean;
 import com.example.mytest.model.contract.main.LoginContract;
-import com.example.mytest.util.RxUtil;
 import com.example.mytest.widget.CommonSubscriber;
 
 import java.util.HashMap;
@@ -35,14 +34,23 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
         map.put("password", password);
         //map.put("platForm", 1);
 
-        addSubscribe(dataManager.fetchLoginInfo(map)
+        /*addSubscribe(dataManager.fetchLoginInfo(map)
                 .compose(RxUtil.rxSchedulerHelper())
                 .compose(RxUtil.handleResult())
                 .subscribeWith(new CommonSubscriber<LoginBean>(mView) {
                     @Override
-                    public void onNext(LoginBean loginBean) {
-                        mView.onLoginSuccess(loginBean);
+                    public void successReturn(LoginBean data) {
+                        mView.onLoginSuccess(data);
                     }
-                }));
+                }));*/
+
+        doDefault(dataManager.fetchLoginInfo(map), new CommonSubscriber<LoginBean>(mView) {
+            @Override
+            public void successReturn(LoginBean data) {
+                mView.onLoginSuccess(data);
+            }
+        });
     }
+
+
 }
